@@ -1,0 +1,25 @@
+#!/usr/bin/env python
+
+from __future__ import print_function
+
+from beginner_tutorials.srv import AddTwoInts,AddTwoIntsResponse
+import rospy
+
+def handle_add_two_ints(req):
+    # Recieves an instance of AddTwoIntsRequest
+    print("Returning [%s + %s = %s]"%(req.a, req.b, (req.a + req.b)))
+    # Returns an instance of AddTwoIntsResponse
+    return AddTwoIntsResponse(req.a + req.b)
+
+def add_two_ints_server():
+    # Declare node using rospy.init_node
+    rospy.init_node('add_two_ints_server')
+    # Declare service using rospy.Service
+        # This declares a new service named "add_two_ints" with the AddTwoInts service type
+        # All requests are sent to the "handle_add_two_ints" function
+    s = rospy.Service('add_two_ints', AddTwoInts, handle_add_two_ints)
+    print("Ready to add two ints.")
+    rospy.spin() # Kepps code running until service is stopped with Ctrl+C
+
+if __name__ == "__main__":
+    add_two_ints_server()
